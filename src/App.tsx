@@ -1,13 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import CleanUp from "./CleanUp";
+import { Counter } from "./features/counter/Counter";
 
-function App() {
+const App: React.FC = () => {
+  const [status, setStatus] = useState<string | number>("aa");
+  const [input , setInput] = useState('');
+  const [counter,setCounter] = useState(0);
+  const [display,setDisplay] = useState(true);
+
+  const onChangeHandler = (e:React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)
+  useEffect(()=>{
+    console.log('!');
+    document.title= `current value is ${counter}`
+    
+  },[counter])
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <h4>{status}</h4>
+        <button onClick={()=>setStatus(0)}>Button</button>
+        <h4>{input}</h4>
+        <input type='text' value={input} onChange={onChangeHandler}/>
+        <h4>{counter}</h4>
+        <button onClick={()=>setCounter((preCounter)=>preCounter+1)}>Increment</button>
+        {display &&  <CleanUp/>}
+        <button onClick={()=>setDisplay(!display)}>toggle</button>
+
+
         <Counter />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
@@ -53,6 +74,6 @@ function App() {
       </header>
     </div>
   );
-}
+};
 
 export default App;
